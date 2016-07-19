@@ -5,43 +5,49 @@
 }
 <header class="header">
     <div class="logotipo contenedor">
-        <img src="~/images/logo.png" height="200"/>
-        <img src="~/images/CAVAZOS.png" height="150" />
+        <img src="~/images/logo.png" height="150"/>
+        <img src="~/images/CAVAZOS.png" height="100" />
     </div>
     <div class="contenedor titulo">
         <h1>Reporte SIAP</h1>
     </div>
 </header>
-<section>
-    <form class="contenedor">
-        <table>
-            <tr>
-                <th>
-                    <label>Empresa</label>
-                    <input type="text" />
-                </th>
-                <th>
-                    <label>Año</label>
-                    <input type="text" />
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <label>Proceso</label>
-                    <input type="text" />
-                </th>
-                <th>
-                    <label>Periodo(s)</label>
-                    <input type="text" />
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <label>Concepto(s)</label>
-                    <input type="text" />
-                </th>
-            </tr>
-        </table>
-        <input type="submit" class="boton"/>
-    </form>
+<section class="contenedor">
+    <div class="formulario">
+        <form>
+            <div>
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Empresa</label>
+                            <input type="text" class="cajas"/>
+                        </th>
+                        <th>
+                            <label>Año</label>
+                            <input type="text" class="cajas"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>Proceso</label>
+                            <input type="text" class="cajas"/>
+                        </th>
+                        <th>
+                            <label>Periodo(s)</label>
+                            <input type="text" class="cajas"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <label>Concepto(s)</label>
+                            <input type="text" class="cajas"/>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="boton">
+                <input type="submit" class="boton" value="Generar"/>
+            </div>
+        </form>
+    </div>
 </section>
