@@ -23,7 +23,6 @@ E:\CodeUser\ReporteS\Reporte\bin\Microsoft.AI.WindowsServer.dll
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.ApplicationInsights.dll
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.Web.Infrastructure.dll
-E:\CodeUser\ReporteS\Reporte\bin\Mvc.CascadeDropDown.dll
 E:\CodeUser\ReporteS\Reporte\bin\NPOI.dll
 E:\CodeUser\ReporteS\Reporte\bin\NPOI.OOXML.dll
 E:\CodeUser\ReporteS\Reporte\bin\NPOI.OpenXml4Net.dll
@@ -36,7 +35,6 @@ E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Deployment.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Razor.dll
 E:\CodeUser\ReporteS\Reporte\bin\ICSharpCode.SharpZipLib.dll
-E:\CodeUser\ReporteS\Reporte\bin\Mvc.CascadeDropDown.pdb
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.AI.DependencyCollector.xml
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.AI.ServerTelemetryChannel.xml
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.AI.Web.xml
@@ -51,6 +49,5 @@ E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Deployment.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Razor.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Helpers.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Mvc.xml
-E:\CodeUser\ReporteS\Reporte\obj\Debug\Reporte.csprojResolveAssemblyReference.cache
 E:\CodeUser\ReporteS\Reporte\obj\Debug\Reporte.dll
 E:\CodeUser\ReporteS\Reporte\obj\Debug\Reporte.pdb

@@ -200,12 +200,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C:\Users\TI-proganalista\Downloads\Mvc.CascadeDropDown-master\Mvc.CascadeDropDown-master\Mvc.CascadeDropDown\Mvc.CascadeDropDown.csproj">
-      <Project>{9afca1ab-7b5c-49c0-a067-ee5393069686}</Project>
-      <Name>Mvc.CascadeDropDown</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

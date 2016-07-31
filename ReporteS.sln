@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reporte", "Reporte\Reporte.csproj", "{90A9D638-565A-489B-8585-E48B378C82CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.CascadeDropDown", "C:\Users\TI-proganalista\Downloads\Mvc.CascadeDropDown-master\Mvc.CascadeDropDown-master\Mvc.CascadeDropDown\Mvc.CascadeDropDown.csproj", "{9AFCA1AB-7B5C-49C0-A067-EE5393069686}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mvc.CascadeDropDown", "Mvc.CascadeDropDown\Mvc.CascadeDropDown.csproj", "{9AFCA1AB-7B5C-49C0-A067-EE5393069686}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
