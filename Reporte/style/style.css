@@ -77,3 +77,9 @@ footer {
     text-align: right;
 }
 
+.cajas{
+    width: 250px;
+    height: 15px;
+    border-radius: 20px;
+    padding: 5px 25px;
+}

@@ -1,12 +1,14 @@
 ﻿@using Mvc.CascadeDropDown
 @model Reporte.Models.CascadingDropdownsModel
-
 @{
-          ViewBag.Title = "Index";
+    ViewBag.Title = "FilterProcesos";
 }
+
+<h2>FilterProcesos</h2>
+
 <header class="header">
     <div class="logotipo contenedor">
-        <img src="~/images/logo.png" height="150"/>
+        <img src="~/images/logo.png" height="150" />
         <img src="~/images/CAVAZOS.png" height="100" />
     </div>
     <div class="contenedor titulo">
@@ -15,7 +17,7 @@
 </header>
 <section class="contenedor">
     <div class="formulario">
-            @using (Html.BeginForm("GenerarDocument", "Home", FormMethod.Post))
+        @using (Html.BeginForm("GenerarDocument", "Home", FormMethod.Post))
             {
             <div>
                 <table class="tablas">
@@ -30,26 +32,16 @@
                         </th>
                     </tr>
                     <tr>
-                        <th>
-                            <label>Proceso</label>
-                            @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
-                                  triggeredByProperty: m => m.SelectedEmpresas,
-                                  url: Url.Action("GetProcesos", "Home"),
-                                  ajaxActionParamName: "empresas",
-                                  optionLabel: "Please select a proceso",
-                                  disabledWhenParrentNotSelected: true,
-                                  htmlAttributes: new { @class = "form-control combobox" })
-                        </th>
-                        <th>
+                        <th colspan="2">
                             <label>Periodo(s)</label>
-                            @Html.DropDownListFor(m => m.SelectedMeses, Model.Meses, "Seleccione el mes", new { @class = "form-control combobox" })
+                            @Html.EditorFor(model => model.SelectedProcesos, new { htmlAttributes = new { @class = "form-control cajas" } })
                         </th>
                     </tr>
                 </table>
             </div>
             <div class="boton">
-                <input type="submit" class="boton" value="Generar"/>
+                <input type="submit" class="boton" value="Generar" />
             </div>
-            }
+        }
     </div>
 </section>
