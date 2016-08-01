@@ -1,0 +1,41 @@
+﻿@using Mvc.CascadeDropDown
+@model Reporte.Models.CascadingDropdownsModel
+@{
+    ViewBag.Title = "FilterProcesos";
+}
+<section class="contenedor">
+    <div class="formulario">
+        @using (Html.BeginForm("GenerarDocumentPro", "Home", FormMethod.Post))
+            {
+            <div>
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Empresa</label>
+                            @Html.DropDownListFor(m => m.SelectedEmpresas, Model.Empresas, "Seleccione la empresa", new { @class = "form-control combobox" , Required = true })
+                        </th>
+                        <th>
+                            <label>Proceso</label>
+                            @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
+                                  triggeredByProperty: m => m.SelectedEmpresas,
+                                  url: Url.Action("GetProcesos", "Home"),
+                                  ajaxActionParamName: "empresas",
+                                  optionLabel: "Selececiona el proceso",
+                                  disabledWhenParrentNotSelected: true,
+                                  htmlAttributes: new { @class = "form-control combobox", Required = true })
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <label>Periodo(s)</label>
+                            @Html.EditorFor(model => model.SelectedMeses, new { htmlAttributes = new { @class = "form-control cajas", placeholder = "ejemplo: 2015001 o 2015001-2015015", Required = true } })
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="boton">
+                <input type="submit" class="boton" value="Generar" />
+            </div>
+        }
+    </div>
+</section>
