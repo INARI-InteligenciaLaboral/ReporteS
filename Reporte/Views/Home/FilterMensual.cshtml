@@ -1,0 +1,47 @@
+﻿@using Mvc.CascadeDropDown
+@model Reporte.Models.CascadingDropdownsModel
+
+@{
+    ViewBag.Title = "FilterMensual";
+}
+
+<section class="contenedor">
+    <div class="formulario">
+        @using (Html.BeginForm("GenerarDocument", "Home", FormMethod.Post))
+            {
+            <div>
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Empresa</label>
+                            @Html.DropDownListFor(m => m.SelectedEmpresas, Model.Empresas, "Seleccione la empresa", new { @class = "form-control combobox", Required = true })
+                        </th>
+                        <th>
+                            <label>Año</label>
+                            @Html.DropDownListFor(m => m.SelectedAnos, Model.Anos, "Seleccione el año", new { @class = "form-control combobox", Required = true })
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>Proceso</label>
+                            @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
+                                  triggeredByProperty: m => m.SelectedEmpresas,
+                                  url: Url.Action("GetProcesos", "Home"),
+                                  ajaxActionParamName: "empresas",
+                                  optionLabel: "Selecciona el proceso",
+                                  disabledWhenParrentNotSelected: true,
+                                  htmlAttributes: new { @class = "form-control combobox", Required = true })
+                        </th>
+                        <th>
+                            <label>Periodo(s)</label>
+                            @Html.DropDownListFor(m => m.SelectedMeses, Model.Meses, "Seleccione el mes", new { @class = "form-control combobox", Required = true })
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="boton">
+                <input type="submit" class="boton" value="Generar" />
+            </div>
+        }
+    </div>
+</section>
