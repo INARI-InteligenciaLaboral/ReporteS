@@ -85,6 +85,8 @@ select {
 footer {
     color: white;
     text-align: right;
+    bottom: 0;
+    position: fixed;
 }
 
 .cajas{
@@ -128,7 +130,4 @@ a{
     text-transform: uppercase;
     text-decoration: none;
 }
-footer{
-    bottom: 0;
-    position: fixed;
-}
+
