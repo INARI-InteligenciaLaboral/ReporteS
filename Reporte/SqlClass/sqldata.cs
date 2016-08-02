@@ -15,7 +15,7 @@ namespace Reporte.SqlClass
     {
         public static DataTable ObtenerEmp()
         {
-            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Password=lop35.qs;Initial Catalog=SIAP;";
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
             DataTable m_empresas = new DataTable();
             try
             {
@@ -35,7 +35,7 @@ namespace Reporte.SqlClass
 
         public static DataTable ObtenerPro(string m_empresa)
         {
-            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Password=lop35.qs;Initial Catalog=SIAP;";
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
             DataTable m_Procesos = new DataTable();
             try
             {
@@ -57,7 +57,7 @@ namespace Reporte.SqlClass
             SqlDataAdapter adp;
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
-            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Password=lop35.qs;Initial Catalog=SIAP;";
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
             try
             {
                 using (SqlConnection m_conexion = new SqlConnection(m_cadena))
@@ -85,7 +85,7 @@ namespace Reporte.SqlClass
             SqlDataAdapter adp;
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
-            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Password=lop35.qs;Initial Catalog=SIAP;";
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
             try
             {
                 using (SqlConnection m_conexion = new SqlConnection(m_cadena))

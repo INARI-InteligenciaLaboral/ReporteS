@@ -1,4 +1,4 @@
-﻿using NPOI.HSSF.UserModel;
+﻿using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using Reporte.Models;
@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 //using Excel = Microsoft.Office.Interop.Excel;
 
@@ -125,7 +123,8 @@ namespace Reporte.Controllers
         {
 
             IWorkbook workbook;
-            
+
+
             workbook = new XSSFWorkbook();
 
             ISheet sheet1 = workbook.CreateSheet("Sheet 1");
@@ -135,10 +134,31 @@ namespace Reporte.Controllers
 
             for (int j = 0; j < dt.Columns.Count; j++)
             {
-
                 ICell cell = row1.CreateCell(j);
+                ICellStyle style = workbook.CreateCellStyle();
+                style.FillForegroundColor = IndexedColors.White.Index;
+                if (j > 4 && j < 17)
+                {
+                    style.FillForegroundColor = IndexedColors.LightBlue.Index;
+                }
+                else if (j > 16 && j < 37)
+                {
+                    style.FillForegroundColor = IndexedColors.Red.Index;
+                }
+                else if (j == 37)
+                {
+                    style.FillForegroundColor = IndexedColors.Green.Index;
+                }
+                else if (j == 38 || j == 39)
+                {
+                    style.FillForegroundColor = IndexedColors.Yellow.Index;
+                }
+
+                style.FillPattern = FillPattern.SolidForeground;
+                cell.CellStyle = style;
                 String columnName = dt.Columns[j].ToString();
                 cell.SetCellValue(columnName);
+                sheet1.AutoSizeColumn(j);
             }
 
             //loops through data
@@ -149,8 +169,26 @@ namespace Reporte.Controllers
                 {
 
                     ICell cell = row.CreateCell(j);
+                    ICellStyle style = workbook.CreateCellStyle();
+                    style.FillForegroundColor = IndexedColors.White.Index;
+                    if (i > 0)
+                    {
+                        if (i % 2 == 0)
+                        {
+
+                            style.FillForegroundColor = IndexedColors.SkyBlue.Index;
+                        }
+                    }
+                    else
+                    {
+                        style.FillForegroundColor = IndexedColors.SkyBlue.Index;
+
+                    }
+                    style.FillPattern = FillPattern.SolidForeground;
+                    cell.CellStyle = style;
                     String columnName = dt.Columns[j].ToString();
                     cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                    sheet1.AutoSizeColumn(j);
                 }
             }
 
@@ -166,8 +204,8 @@ namespace Reporte.Controllers
         }
         public void WriteExcelWith(DataTable dt, String m_nombre)
         {
-
             IWorkbook workbook;
+
 
             workbook = new XSSFWorkbook();
 
@@ -178,10 +216,31 @@ namespace Reporte.Controllers
 
             for (int j = 0; j < dt.Columns.Count; j++)
             {
-
                 ICell cell = row1.CreateCell(j);
+                ICellStyle style = workbook.CreateCellStyle();
+                style.FillForegroundColor = IndexedColors.White.Index;
+                if (j > 4 && j < 17)
+                {
+                    style.FillForegroundColor = IndexedColors.LightBlue.Index;
+                }
+                else if(j > 16 && j < 37)
+                {
+                    style.FillForegroundColor = IndexedColors.Red.Index;
+                }
+                else if(j == 37)
+                {
+                    style.FillForegroundColor = IndexedColors.Green.Index;
+                }
+                else if(j == 38 || j == 39)
+                {
+                    style.FillForegroundColor = IndexedColors.Yellow.Index;
+                }
+
+                style.FillPattern = FillPattern.SolidForeground;
+                cell.CellStyle = style;
                 String columnName = dt.Columns[j].ToString();
                 cell.SetCellValue(columnName);
+                sheet1.AutoSizeColumn(j);
             }
 
             //loops through data
@@ -192,11 +251,29 @@ namespace Reporte.Controllers
                 {
 
                     ICell cell = row.CreateCell(j);
+                    ICellStyle style = workbook.CreateCellStyle();
+                    style.FillForegroundColor = IndexedColors.White.Index;
+                    if (i > 0)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            
+                            style.FillForegroundColor = IndexedColors.SkyBlue.Index;
+                        }
+                    }
+                    else
+                    {
+                        style.FillForegroundColor = IndexedColors.SkyBlue.Index;
+                        
+                    }
+                    style.FillPattern = FillPattern.SolidForeground;
+                    cell.CellStyle = style;
                     String columnName = dt.Columns[j].ToString();
                     cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                    sheet1.AutoSizeColumn(j);
                 }
             }
-
+            
             using (var exportData = new MemoryStream())
             {
                 Response.Clear();
