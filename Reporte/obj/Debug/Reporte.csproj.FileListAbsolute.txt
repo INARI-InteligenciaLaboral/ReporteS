@@ -81,7 +81,6 @@ E:\CodeUser\ReporteS\Reporte\bin\NPOI.OpenXml4Net.dll
 E:\CodeUser\ReporteS\Reporte\bin\NPOI.OpenXmlFormats.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Helpers.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Mvc.dll
-E:\CodeUser\ReporteS\Reporte\bin\System.Web.Optimization.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Razor.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Deployment.dll
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.dll
