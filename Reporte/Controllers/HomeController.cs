@@ -104,7 +104,7 @@ namespace Reporte.Controllers
             DataTable m_result = SqlClass.sqldata.GenerarReporte(m_Results);
             WriteExcelWithNPOI(m_result, m_Results.SelectedAnos + "-" + m_Results.SelectedEmpresas);
             m_mensual = false;
-            return Redirect("Index");
+            return RedirectToAction("Index");
         }
 
         public ActionResult GenerarDocumentPro([Bind(Include = "SelectedEmpresas,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel m_Results)
@@ -116,7 +116,7 @@ namespace Reporte.Controllers
             m_importe = true;
             WriteExcelWith( m_Results.SelectedMeses + "-" + m_Results.SelectedEmpresas, m_Results);
             m_importe = false;
-            return Redirect("FilterProcesos");
+            return RedirectToAction("Home","FilterProcesos");
         }
         
         public void WriteExcelWithNPOI(DataTable dt, String m_nombre)
