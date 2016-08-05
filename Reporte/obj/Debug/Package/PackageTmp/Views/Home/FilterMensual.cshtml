@@ -40,8 +40,27 @@
                 </table>
             </div>
             <div class="boton">
-                <input type="submit" class="boton" value="Generar" />
+                <input onclick="JavascriptFunction();" type="submit" class="boton" value="Generar" />
+            </div>
+            <div class="contenedor">
+                <p id="lbltipAddedComment" class="labelmen"></p>
             </div>
         }
     </div>
+    <script language="javascript">
+                function JavascriptFunction() {
+                    var Empresa = $('#SelectedEmpresas').val();
+                    var Procesos = $('#SelectedProcesos').val();
+                    var Periodos = $('#SelectedMeses').val();
+                    var Anos = $('#SelectedAnos').val();
+                    if (!Empresa == '' && !Procesos == '' && !Periodos == '' && !Anos == '')
+                    {
+                        document.getElementById('lbltipAddedComment').innerHTML = 'El documento ' + Anos + '-' + Empresa +'Reporte.xlsx se generara en breve, favor de esperar';
+                    }
+                    else
+                    {
+                        document.getElementById('lbltipAddedComment').innerHTML = '';
+                    }
+                }
+    </script>
 </section>

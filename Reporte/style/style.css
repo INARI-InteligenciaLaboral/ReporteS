@@ -15,7 +15,7 @@ h1 {
  
 select {
     width: 250px;
-    height: 30px;
+    height: 30px; 
     border-radius: 20px;
     padding: 5px 25px;
 }
@@ -78,6 +78,14 @@ select {
     font-family: Arial, sans-serif;
 }
 
+p {
+    text-decoration :none;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+} 
+ 
 .formulario label, .cajas {
     display: block;
 }

@@ -5,8 +5,8 @@
 }
 <section class="contenedor">
     <div class="formulario">
-        @using (Html.BeginForm("GenerarDocumentPro", "Home", FormMethod.Post))
-            {
+        @using (Html.BeginForm("GenerarDocumentPro", "Home", FormMethod.Post, new { id = "target" }))
+        {
             <div>
                 <table class="tablas">
                     <tr>
@@ -33,9 +33,28 @@
                     </tr>
                 </table>
             </div>
+            
             <div class="boton">
-                <input type="submit" class="boton" value="Generar" />
+                <input onclick="JavascriptFunction();" type="submit" class="boton" value="Generar" />
+            </div>
+            <div class="contenedor">
+                <p id="lbltipAddedComment" class="labelmen"></p>
             </div>
         }
     </div>
+    <script language="javascript">
+                function JavascriptFunction() {
+                    var Empresa = $('#SelectedEmpresas').val();
+                    var Procesos = $('#SelectedProcesos').val();
+                    var Periodos = $('#SelectedMeses').val();
+                    if (!Empresa == '' && !Procesos == '' && !Periodos == '')
+                    {
+                        document.getElementById('lbltipAddedComment').innerHTML = 'El documento ' + Periodos + '-' + Empresa + 'Reporte.xlsx se generara en breve, favor de esperar';
+                    }
+                    else
+                    {
+                        document.getElementById('lbltipAddedComment').innerHTML = '';
+                    }
+                }
+    </script>
 </section>
