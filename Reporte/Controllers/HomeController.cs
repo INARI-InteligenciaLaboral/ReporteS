@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Runtime.Remoting.Contexts;
 using System.Threading;
 using System.Web.Mvc;
 //using Excel = Microsoft.Office.Interop.Excel;
@@ -81,7 +82,7 @@ namespace Reporte.Controllers
                 l_Procesos.Add(new SelectListItem()
                 {
                     Text = Row[0].ToString() + " - " + Row[1].ToString(),
-                    Value = Row[0].ToString()
+                    Value = Row[0].ToString(),
                 });
             }
             l_Procesos.Add(new SelectListItem()
@@ -93,10 +94,10 @@ namespace Reporte.Controllers
             var procesos = l_Procesos;
             return Json(m_List, JsonRequestBehavior.AllowGet);
         }
-        
+
         public ActionResult GenerarDocument([Bind(Include = "SelectedEmpresas,SelectedAnos,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel m_Results)
         {
-            while(m_mensual)
+            while (m_mensual)
             {
                 Thread.Sleep(5000);
             }
@@ -106,7 +107,6 @@ namespace Reporte.Controllers
             m_mensual = false;
             return RedirectToAction("Index");
         }
-
         public ActionResult GenerarDocumentPro([Bind(Include = "SelectedEmpresas,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel m_Results)
         {
             while (m_importe)
@@ -114,11 +114,10 @@ namespace Reporte.Controllers
                 Thread.Sleep(5000);
             }
             m_importe = true;
-            WriteExcelWith( m_Results.SelectedMeses + "-" + m_Results.SelectedEmpresas, m_Results);
+            WriteExcelWith(m_Results.SelectedMeses + "-" + m_Results.SelectedEmpresas, m_Results);
             m_importe = false;
-            return RedirectToAction("Home","FilterProcesos");
+            return RedirectToAction("FilterProcesos", "Home");
         }
-        
         public void WriteExcelWithNPOI(DataTable dt, String m_nombre)
         {
 
@@ -141,15 +140,15 @@ namespace Reporte.Controllers
                 {
                     style.FillForegroundColor = IndexedColors.LightBlue.Index;
                 }
-                else if (j > 16 && j < 37)
+                else if (j > 16 && j < 38)
                 {
                     style.FillForegroundColor = IndexedColors.Red.Index;
                 }
-                else if (j == 37)
+                else if (j == 38)
                 {
                     style.FillForegroundColor = IndexedColors.Green.Index;
                 }
-                else if (j == 38 || j == 39)
+                else if (j == 39 || j == 40)
                 {
                     style.FillForegroundColor = IndexedColors.Yellow.Index;
                 }
@@ -184,10 +183,22 @@ namespace Reporte.Controllers
                         style.FillForegroundColor = IndexedColors.SkyBlue.Index;
 
                     }
+                    if (i + 1  == dt.Rows.Count)
+                    {
+                        style.FillForegroundColor = IndexedColors.LightYellow.Index;
+                    }
                     style.FillPattern = FillPattern.SolidForeground;
-                    cell.CellStyle = style;
                     String columnName = dt.Columns[j].ToString();
-                    cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                    if (j > 4 && j < 41)
+                    {
+                        cell.SetCellType(CellType.Numeric);
+                        cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
+                    }
+                    else
+                    {
+                        cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                    }
+                    cell.CellStyle = style;
                     sheet1.AutoSizeColumn(j);
                 }
             }
@@ -238,15 +249,15 @@ namespace Reporte.Controllers
                     {
                         style.FillForegroundColor = IndexedColors.LightBlue.Index;
                     }
-                    else if (j > 16 && j < 37)
+                    else if (j > 16 && j < 38)
                     {
                         style.FillForegroundColor = IndexedColors.Red.Index;
                     }
-                    else if (j == 37)
+                    else if (j == 38)
                     {
                         style.FillForegroundColor = IndexedColors.Green.Index;
                     }
-                    else if (j == 38 || j == 39)
+                    else if (j == 39 || j == 40)
                     {
                         style.FillForegroundColor = IndexedColors.Yellow.Index;
                     }
@@ -279,12 +290,23 @@ namespace Reporte.Controllers
                         else
                         {
                             style.FillForegroundColor = IndexedColors.SkyBlue.Index;
-
+                        }
+                        if (i + 1 == dt.Rows.Count)
+                        {
+                            style.FillForegroundColor = IndexedColors.LightYellow.Index;
                         }
                         style.FillPattern = FillPattern.SolidForeground;
-                        cell.CellStyle = style;
                         String columnName = dt.Columns[j].ToString();
-                        cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                        if (j > 4 && j < 41)
+                        {
+                            cell.SetCellType(CellType.Numeric);
+                            cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
+                        }
+                        else
+                        {
+                            cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                        }
+                        cell.CellStyle = style;
                         sheet1.AutoSizeColumn(j);
                     }
                 }

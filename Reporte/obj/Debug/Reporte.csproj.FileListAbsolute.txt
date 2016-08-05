@@ -94,7 +94,6 @@ E:\CodeUser\ReporteS\Reporte\bin\Microsoft.AI.WindowsServer.xml
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.ApplicationInsights.xml
 E:\CodeUser\ReporteS\Reporte\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\CodeUser\ReporteS\Reporte\bin\NPOI.xml
-E:\CodeUser\ReporteS\Reporte\bin\System.Web.Optimization.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Razor.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.xml
 E:\CodeUser\ReporteS\Reporte\bin\System.Web.Webpages.Deployment.xml

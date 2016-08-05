@@ -264,7 +264,6 @@ table {
   @page  {
     margin: 2cm .5cm;
   }
-  p,
   h2,
   h3 {
     orphans: 3;
@@ -400,9 +399,6 @@ hr {
   border: 0;
 }
 
-p {
-  margin: 0 0 10px;
-}
 
 .lead {
   margin-bottom: 20px;
