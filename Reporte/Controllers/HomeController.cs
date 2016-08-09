@@ -136,19 +136,19 @@ namespace Reporte.Controllers
                 ICell cell = row1.CreateCell(j);
                 ICellStyle style = workbook.CreateCellStyle();
                 style.FillForegroundColor = IndexedColors.White.Index;
-                if (j > 4 && j < 17)
+                if (j > 8 && j < 21)
                 {
                     style.FillForegroundColor = IndexedColors.LightBlue.Index;
                 }
-                else if (j > 16 && j < 38)
+                else if (j > 20 && j < 42)
                 {
                     style.FillForegroundColor = IndexedColors.Red.Index;
                 }
-                else if (j == 38)
+                else if (j == 42)
                 {
                     style.FillForegroundColor = IndexedColors.Green.Index;
                 }
-                else if (j == 39 || j == 40)
+                else if (j == 43 || j == 44)
                 {
                     style.FillForegroundColor = IndexedColors.Yellow.Index;
                 }
@@ -189,7 +189,7 @@ namespace Reporte.Controllers
                     }
                     style.FillPattern = FillPattern.SolidForeground;
                     String columnName = dt.Columns[j].ToString();
-                    if (j > 4 && j < 41)
+                    if (j > 8 && j < 45 || j == 5 || j == 6)
                     {
                         cell.SetCellType(CellType.Numeric);
                         cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
@@ -221,6 +221,7 @@ namespace Reporte.Controllers
             workbook = new XSSFWorkbook();
             int inicio = 0;
             int fin = 0;
+            bool m_Aguinaldo = false;
             Char delimiter = '-';
             String[] substrings = m_Results.SelectedMeses.Split(delimiter);
             foreach (var substring in substrings)
@@ -232,6 +233,8 @@ namespace Reporte.Controllers
             }
             if (fin == 0)
                 fin = inicio;
+            if ((inicio <= 2015224 && fin >= 2015224) || (inicio <= 2015252 && fin >= 2015252))
+                m_Aguinaldo = true;
             while(fin >= inicio)
             {
                 m_Results.SelectedMeses = inicio.ToString();
@@ -245,19 +248,19 @@ namespace Reporte.Controllers
                     ICell cell = row1.CreateCell(j);
                     ICellStyle style = workbook.CreateCellStyle();
                     style.FillForegroundColor = IndexedColors.White.Index;
-                    if (j > 4 && j < 17)
+                    if (j > 8 && j < 21)
                     {
                         style.FillForegroundColor = IndexedColors.LightBlue.Index;
                     }
-                    else if (j > 16 && j < 38)
+                    else if (j > 20 && j < 42)
                     {
                         style.FillForegroundColor = IndexedColors.Red.Index;
                     }
-                    else if (j == 38)
+                    else if (j == 42)
                     {
                         style.FillForegroundColor = IndexedColors.Green.Index;
                     }
-                    else if (j == 39 || j == 40)
+                    else if (j == 43 || j == 44)
                     {
                         style.FillForegroundColor = IndexedColors.Yellow.Index;
                     }
@@ -270,48 +273,61 @@ namespace Reporte.Controllers
                 }
 
                 //loops through data
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    IRow row = sheet1.CreateRow(i + 1);
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                if (dt.Rows.Count > 1)
+                    for (int i = 0; i < dt.Rows.Count; i++)
                     {
-
-                        ICell cell = row.CreateCell(j);
-                        ICellStyle style = workbook.CreateCellStyle();
-                        style.FillForegroundColor = IndexedColors.White.Index;
-                        if (i > 0)
+                        IRow row = sheet1.CreateRow(i + 1);
+                        for (int j = 0; j < dt.Columns.Count; j++)
                         {
-                            if (i % 2 == 0)
-                            {
 
+                            ICell cell = row.CreateCell(j);
+                            ICellStyle style = workbook.CreateCellStyle();
+                            style.FillForegroundColor = IndexedColors.White.Index;
+                            if (i > 0)
+                            {
+                                if (i % 2 == 0)
+                                {
+
+                                    style.FillForegroundColor = IndexedColors.SkyBlue.Index;
+                                }
+                            }
+                            else
+                            {
                                 style.FillForegroundColor = IndexedColors.SkyBlue.Index;
                             }
+                            if (i + 1 == dt.Rows.Count)
+                            {
+                                style.FillForegroundColor = IndexedColors.LightYellow.Index;
+                            }
+                            style.FillPattern = FillPattern.SolidForeground;
+                            String columnName = dt.Columns[j].ToString();
+                            if (j > 8 && j < 45 ||  j == 5 || j == 6)
+                            {
+                                cell.SetCellType(CellType.Numeric);
+                                cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
+                            }
+                            else
+                            {
+                                cell.SetCellValue(dt.Rows[i][columnName].ToString());
+                            }
+                            cell.CellStyle = style;
+                            sheet1.AutoSizeColumn(j);
                         }
-                        else
-                        {
-                            style.FillForegroundColor = IndexedColors.SkyBlue.Index;
-                        }
-                        if (i + 1 == dt.Rows.Count)
-                        {
-                            style.FillForegroundColor = IndexedColors.LightYellow.Index;
-                        }
-                        style.FillPattern = FillPattern.SolidForeground;
-                        String columnName = dt.Columns[j].ToString();
-                        if (j > 4 && j < 41)
-                        {
-                            cell.SetCellType(CellType.Numeric);
-                            cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
-                        }
-                        else
-                        {
-                            cell.SetCellValue(dt.Rows[i][columnName].ToString());
-                        }
-                        cell.CellStyle = style;
-                        sheet1.AutoSizeColumn(j);
                     }
+                    if(fin == inicio)
+                    {
+                        if (m_Aguinaldo)
+                        {
+                            fin = 2015702;
+                            inicio = 2015702;
+                            m_Aguinaldo = false;
+                        }
+                        else
+                            inicio++;
+                    }
+                    else 
+                        inicio++;
                 }
-                inicio++;
-            }
             
             
             using (var exportData = new MemoryStream())
