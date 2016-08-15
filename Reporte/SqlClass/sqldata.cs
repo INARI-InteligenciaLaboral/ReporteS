@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Reporte.Models;
-using System.Configuration;
 
 namespace Reporte.SqlClass
 {
@@ -106,6 +100,54 @@ namespace Reporte.SqlClass
             catch (Exception ex)
             { }
             return dt;
+        }
+        public static string Empresa_Title(string m_Parametros)
+        {
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
+            string titlemens = "";
+            DataTable m_empresas = new DataTable();
+            try
+            {
+                using (SqlConnection m_conexion = new SqlConnection(m_cadena))
+                {
+                    m_conexion.Open();
+                    string m_command = "SELECT cia_keycia AS KeyEmp, cia_descia AS Empresa FROM nmlocias Where cia_keycia = " + m_Parametros;
+                    SqlCommand m_adapter = new SqlCommand(m_command, m_conexion);
+                    m_empresas.Load(m_adapter.ExecuteReader());
+                    m_conexion.Close();
+                }
+                foreach (DataRow Row in m_empresas.Rows)
+                {
+                    titlemens = Row[1].ToString();
+                }
+            }
+            catch (Exception ex)
+            { }
+            return titlemens;
+        }
+        public static string ProcesosTitle(CascadingDropdownsModel m_Parametros, int periodo)
+        {
+            string m_cadena = "Persist Security Info=False;User ID=usuario_siap;Initial Catalog=SIAP;";
+            string titlemens = "";
+            DataTable m_empresas = new DataTable();
+            try
+            {
+                using (SqlConnection m_conexion = new SqlConnection(m_cadena))
+                {
+                    m_conexion.Open();
+                    string m_command = "select substring(per_keyper,6,7), per_fecini, per_fecfin from nmloperi where per_keypro = " + m_Parametros.SelectedProcesos + " and per_keyper = " + periodo.ToString();
+                    SqlCommand m_adapter = new SqlCommand(m_command, m_conexion);
+                    m_empresas.Load(m_adapter.ExecuteReader());
+                    m_conexion.Close();
+                }
+                foreach (DataRow Row in m_empresas.Rows)
+                {
+                    titlemens = "Reporte del Proceso " + m_Parametros.SelectedProcesos.ToString() + " del período " + Row[0].ToString() + " - " + Convert.ToDateTime(Row[1]).ToString("dd-MMM-yyyy") + " al " + Convert.ToDateTime(Row[2]).ToString("dd-MMM-yyyy");
+                }
+            }
+            catch (Exception ex)
+            { }
+            return titlemens;
         }
     }
 }
