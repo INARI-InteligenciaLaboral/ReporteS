@@ -14,18 +14,6 @@
 </head>
 <body>
     <div class="container body-content">
-        <header class="header">
-            <div class="contenedor">
-                <img src="~/images/logo.png" height="150" class="logotipo"/>
-                @Html.ActionLink("Inicio", "Index")
-                @Html.ActionLink("Mensual", "FilterMensual")
-                @Html.ActionLink("Periodos", "FilterProcesos")
-                <img src="~/images/CAVAZOS.png" height="100" class="logotipob"/>
-            </div>
-            <div class="contenedor titulo">
-                <h1>Reporte SIAP</h1>
-            </div>
-        </header>
         @RenderBody()
         <footer>
             <p>&copy; @DateTime.Now.Year - INARI Inteligencia Laboral</p>

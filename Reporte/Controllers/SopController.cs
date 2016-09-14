@@ -1,4 +1,4 @@
-﻿using NPOI.HSSF.Util;
+﻿using Microsoft.Office.Interop.Excel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using Reporte.Models;
@@ -6,29 +6,29 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Runtime.Remoting.Contexts;
+using System.Linq;
 using System.Threading;
+using System.Web;
 using System.Web.Mvc;
-//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Reporte.Controllers
 {
-    public class HomeController : Controller
+    public class SopController : Controller
     {
-        private static IDictionary<Guid, int> tasks = new Dictionary<Guid, int>();
         public bool m_importe = false;
         public bool m_mensual = false;
         List<SelectListItem> l_empresas = new List<SelectListItem>();
-        // GET: Home
+
+        // GET: Sop
         public ActionResult Index()
         {
             return View();
         }
         // GET: Home
-        public ActionResult FilterMensual()
+        public ActionResult SopradeMensual()
         {
-            DataTable m_Empresas = SqlClass.sqldata.ObtenerEmp();
-            
+            System.Data.DataTable m_Empresas = SqlClass.sqlsop.ObtenerEmp();
+
             foreach (DataRow Row in m_Empresas.Rows)
             {
                 l_empresas.Add(new SelectListItem()
@@ -40,7 +40,7 @@ namespace Reporte.Controllers
             List<SelectListItem> l_anos = new List<SelectListItem>();
             l_anos = SqlClass.ListasStaticas.ObtenerAnos();
             List<SelectListItem> l_meses = new List<SelectListItem>();
-            l_meses = SqlClass.ListasStaticas.ObtenerMeses();
+            l_meses = SqlClass.ListasStaticas.ObtenerMesesSop();
             var model = new CascadingDropdownsModel
             {
                 Empresas = l_empresas,
@@ -50,9 +50,9 @@ namespace Reporte.Controllers
             return View(model);
         }
         // GET: Home
-        public ActionResult FilterProcesos()
+        public ActionResult SopradeProcesos()
         {
-            DataTable m_Empresas = SqlClass.sqldata.ObtenerEmp();
+            System.Data.DataTable m_Empresas = SqlClass.sqlsop.ObtenerEmp();
             List<SelectListItem> l_empresas = new List<SelectListItem>();
             foreach (DataRow Row in m_Empresas.Rows)
             {
@@ -70,7 +70,7 @@ namespace Reporte.Controllers
         }
         public ActionResult GetProcesos(string empresas)
         {
-            DataTable m_Procesos = SqlClass.sqldata.ObtenerPro(empresas);
+            System.Data.DataTable m_Procesos = SqlClass.sqlsop.ObtenerPro(empresas);
             List<SelectListItem> l_Procesos = new List<SelectListItem>();
             string sop_proceso = "";
             foreach (DataRow Row in m_Procesos.Rows)
@@ -82,7 +82,7 @@ namespace Reporte.Controllers
                 sop_proceso = sop_proceso + Row[0].ToString();
                 l_Procesos.Add(new SelectListItem()
                 {
-                    Text = Row[0].ToString() + " - " + Row[1].ToString(),
+                    Text = Row[1].ToString(),
                     Value = Row[0].ToString(),
                 });
             }
@@ -103,7 +103,7 @@ namespace Reporte.Controllers
                 Thread.Sleep(5000);
             }
             m_mensual = true;
-            DataTable m_result = SqlClass.sqldata.GenerarReporte(m_Results);
+            System.Data.DataTable m_result = SqlClass.sqlsop.GenerarReporte(m_Results);
             WriteExcelWithNPOI(m_result, m_Results.SelectedAnos + "-" + m_Results.SelectedEmpresas, m_Results);
             m_mensual = false;
             return RedirectToAction("Index");
@@ -117,16 +117,16 @@ namespace Reporte.Controllers
             m_importe = true;
             WriteExcelWith(m_Results.SelectedMeses + "-" + m_Results.SelectedEmpresas, m_Results);
             m_importe = false;
-            return RedirectToAction("FilterProcesos", "Home");
+            return RedirectToAction("SopradeProcesos", "Sop");
         }
-        public void WriteExcelWithNPOI(DataTable dt, String m_nombre, CascadingDropdownsModel m_Results)
+        public void WriteExcelWithNPOI(System.Data.DataTable dt, String m_nombre, CascadingDropdownsModel m_Results)
         {
 
             IWorkbook workbook;
 
 
             workbook = new XSSFWorkbook();
-            
+
             ISheet sheet1 = workbook.CreateSheet("Sheet 1");
 
 
@@ -200,7 +200,7 @@ namespace Reporte.Controllers
             celda_style1.FillPattern = FillPattern.SolidForeground;
             celda_style1.SetFont(font1);
             celda_title1.CellStyle = celda_style1;
-            celda_title1.SetCellValue(SqlClass.sqldata.Empresa_Title(m_Results.SelectedEmpresas));
+            celda_title1.SetCellValue(SqlClass.sqlsop.Empresa_Title(m_Results.SelectedEmpresas));
 
             IRow row1 = sheet1.CreateRow(2);
             for (int j = 0; j < dt.Columns.Count; j++)
@@ -255,7 +255,7 @@ namespace Reporte.Controllers
                         style.FillForegroundColor = IndexedColors.SkyBlue.Index;
 
                     }
-                    if (i + 1  == dt.Rows.Count)
+                    if (i + 1 == dt.Rows.Count)
                     {
                         style.FillForegroundColor = IndexedColors.LightYellow.Index;
                     }
@@ -280,7 +280,7 @@ namespace Reporte.Controllers
                 Response.Clear();
                 workbook.Write(exportData);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "SIAP " + m_nombre + "Reporte.xlsx"));
+                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "Soprade " + m_nombre + "Reporte.xlsx"));
                 Response.BinaryWrite(exportData.ToArray());
                 Response.End();
             }
@@ -288,7 +288,7 @@ namespace Reporte.Controllers
         public void WriteExcelWith(String m_nombre, CascadingDropdownsModel m_Results)
         {
             IWorkbook workbook;
-            
+
             workbook = new XSSFWorkbook();
             int inicio = 0;
             int fin = 0;
@@ -306,10 +306,10 @@ namespace Reporte.Controllers
                 fin = inicio;
             if ((inicio <= 2015224 && fin >= 2015224) || (inicio <= 2015252 && fin >= 2015252))
                 m_Aguinaldo = true;
-            while(fin >= inicio)
+            while (fin >= inicio)
             {
                 m_Results.SelectedMeses = inicio.ToString();
-                DataTable dt = SqlClass.sqldata.GenerarReporteImp(m_Results);
+                System.Data.DataTable dt = SqlClass.sqlsop.GenerarReporteImp(m_Results);
                 ISheet sheet1 = workbook.CreateSheet(inicio.ToString());
                 if (!(m_Results.SelectedProcesos.Length > 4))
                 {
@@ -325,10 +325,10 @@ namespace Reporte.Controllers
                     celda_style.FillPattern = FillPattern.SolidForeground;
                     celda_style.SetFont(font);
                     celda_title.CellStyle = celda_style;
-                    celda_title.SetCellValue(SqlClass.sqldata.ProcesosTitle(m_Results,inicio));
+                    celda_title.SetCellValue(SqlClass.sqlsop.ProcesosTitle(m_Results, inicio));
                 }
 
-                
+
                 IRow rows1 = sheet1.CreateRow(1);
                 ICell celda_title1 = rows1.CreateCell(0);
                 sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 1, 0, 44));
@@ -341,7 +341,7 @@ namespace Reporte.Controllers
                 celda_style1.FillPattern = FillPattern.SolidForeground;
                 celda_style1.SetFont(font1);
                 celda_title1.CellStyle = celda_style1;
-                celda_title1.SetCellValue(SqlClass.sqldata.Empresa_Title(m_Results.SelectedEmpresas));
+                celda_title1.SetCellValue(SqlClass.sqlsop.Empresa_Title(m_Results.SelectedEmpresas));
 
                 IRow row1 = sheet1.CreateRow(2);
                 for (int j = 0; j < dt.Columns.Count; j++)
@@ -372,7 +372,7 @@ namespace Reporte.Controllers
                     cell.SetCellValue(columnName);
                     sheet1.AutoSizeColumn(j);
                 }
-                
+
                 if (dt.Rows.Count > 1)
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
@@ -401,7 +401,7 @@ namespace Reporte.Controllers
                             }
                             style.FillPattern = FillPattern.SolidForeground;
                             String columnName = dt.Columns[j].ToString();
-                            if (j > 8 && j < 45 ||  j == 5 || j == 6)
+                            if (j > 8 && j < 45 || j == 5 || j == 6)
                             {
                                 cell.SetCellType(CellType.Numeric);
                                 cell.SetCellValue(Convert.ToDouble(dt.Rows[i][columnName].ToString()));
@@ -414,28 +414,28 @@ namespace Reporte.Controllers
                             sheet1.AutoSizeColumn(j);
                         }
                     }
-                    if(fin == inicio)
+                if (fin == inicio)
+                {
+                    if (m_Aguinaldo)
                     {
-                        if (m_Aguinaldo)
-                        {
-                            fin = 2015702;
-                            inicio = 2015702;
-                            m_Aguinaldo = false;
-                        }
-                        else
-                            inicio++;
+                        fin = 2015702;
+                        inicio = 2015702;
+                        m_Aguinaldo = false;
                     }
-                    else 
+                    else
                         inicio++;
                 }
-            
-            
+                else
+                    inicio++;
+            }
+
+
             using (var exportData = new MemoryStream())
             {
                 Response.Clear();
                 workbook.Write(exportData);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "SIAP " + m_nombre + "Reporte.xlsx"));
+                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "Soprade " + m_nombre + "Reporte.xlsx"));
                 Response.BinaryWrite(exportData.ToArray());
                 Response.End();
             }
