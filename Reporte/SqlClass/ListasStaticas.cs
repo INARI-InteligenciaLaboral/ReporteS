@@ -159,5 +159,101 @@ namespace Reporte.SqlClass
             );
             return l_meses;
         }
+        public static List<SelectListItem> ObtenerMesesSop()
+        {
+            List<SelectListItem> l_meses = new List<SelectListItem>();
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Todos",
+                    Value = "1,2,3,4,5,6,7,8,9,10,11,12"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Enero",
+                    Value = "01"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Febrero",
+                    Value = "02"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Marzo",
+                    Value = "03"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Abril",
+                    Value = "04"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Mayo",
+                    Value = "05"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Junio",
+                    Value = "06"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Julio",
+                    Value = "07"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Agosto",
+                    Value = "08"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Setiembre",
+                    Value = "09"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Octubre",
+                    Value = "10"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Noviembre",
+                    Value = "11"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Diciembre",
+                    Value = "12"
+                }
+            );
+            return l_meses;
+        }
     }
 }

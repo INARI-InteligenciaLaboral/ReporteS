@@ -1,25 +1,24 @@
 ﻿@using Mvc.CascadeDropDown
 @model Reporte.Models.CascadingDropdownsModel
-
 @{
-    ViewBag.Title = "FilterMensual";
+    ViewBag.Title = "FilterProcesos";
 }
 <header class="header">
     <div class="contenedor">
         <img src="~/images/logo.png" height="150" class="logotipo" />
         @Html.ActionLink("Inicio", "Index", "Home")
-        @Html.ActionLink("Mensual", "FilterMensual")
-        @Html.ActionLink("Periodos", "FilterProcesos")
+        @Html.ActionLink("Mensual", "SopradeMensual")
+        @Html.ActionLink("Periodos", "SopradeProcesos")
         <img src="~/images/CAVAZOS.png" height="100" class="logotipob" />
     </div>
     <div class="contenedor titulo">
-        <h1>Reporte SIAP</h1>
+        <h1>Reporte Soprade</h1>
     </div>
 </header>
 <section class="contenedor">
     <div class="formulario">
-        @using (Html.BeginForm("GenerarDocument", "Home", FormMethod.Post))
-            {
+        @using (Html.BeginForm("GenerarDocumentPro", "Sop", FormMethod.Post, new { id = "target" }))
+        {
             <div>
                 <table class="tablas">
                     <tr>
@@ -28,28 +27,25 @@
                             @Html.DropDownListFor(m => m.SelectedEmpresas, Model.Empresas, "Seleccione la empresa", new { @class = "form-control combobox", Required = true })
                         </th>
                         <th>
-                            <label>Año</label>
-                            @Html.DropDownListFor(m => m.SelectedAnos, Model.Anos, "Seleccione el año", new { @class = "form-control combobox", Required = true })
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>
                             <label>Proceso</label>
                             @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
                                   triggeredByProperty: m => m.SelectedEmpresas,
-                                  url: Url.Action("GetProcesos", "Home"),
+                                  url: Url.Action("GetProcesos", "Sop"),
                                   ajaxActionParamName: "empresas",
-                                  optionLabel: "Selecciona el proceso",
+                                  optionLabel: "Selececiona el proceso",
                                   disabledWhenParrentNotSelected: true,
                                   htmlAttributes: new { @class = "form-control combobox", Required = true })
                         </th>
-                        <th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
                             <label>Periodo(s)</label>
-                            @Html.DropDownListFor(m => m.SelectedMeses, Model.Meses, "Seleccione el mes", new { @class = "form-control combobox", Required = true })
+                            @Html.EditorFor(model => model.SelectedMeses, new { htmlAttributes = new { @class = "form-control cajas", placeholder = "ejemplo: 2015001 o 2015001-2015015", Required = true } })
                         </th>
                     </tr>
                 </table>
             </div>
+
             <div class="boton">
                 <input onclick="JavascriptFunction();" type="submit" class="boton" value="Generar" />
             </div>
@@ -63,10 +59,9 @@
                     var Empresa = $('#SelectedEmpresas').val();
                     var Procesos = $('#SelectedProcesos').val();
                     var Periodos = $('#SelectedMeses').val();
-                    var Anos = $('#SelectedAnos').val();
-                    if (!Empresa == '' && !Procesos == '' && !Periodos == '' && !Anos == '')
+                    if (!Empresa == '' && !Procesos == '' && !Periodos == '')
                     {
-                        document.getElementById('lbltipAddedComment').innerHTML = 'El documento ' + Anos + '-' + Empresa +'Reporte.xlsx se generara en breve, favor de esperar';
+                        document.getElementById('lbltipAddedComment').innerHTML = 'El documento ' + Periodos + '-' + Empresa + 'Reporte.xlsx se generara en breve, favor de esperar';
                     }
                     else
                     {
