@@ -27,7 +27,7 @@ namespace Reporte.Controllers
         // GET: Home
         public ActionResult FilterMensual()
         {
-            DataTable m_Empresas = SqlClass.sqldata.ObtenerEmp();
+            DataTable m_Empresas = SqlClass.Sqldata.ObtenerEmp();
             
             foreach (DataRow Row in m_Empresas.Rows)
             {
@@ -52,7 +52,7 @@ namespace Reporte.Controllers
         // GET: Home
         public ActionResult FilterProcesos()
         {
-            DataTable m_Empresas = SqlClass.sqldata.ObtenerEmp();
+            DataTable m_Empresas = SqlClass.Sqldata.ObtenerEmp();
             List<SelectListItem> l_empresas = new List<SelectListItem>();
             foreach (DataRow Row in m_Empresas.Rows)
             {
@@ -70,7 +70,7 @@ namespace Reporte.Controllers
         }
         public ActionResult GetProcesos(string empresas)
         {
-            DataTable m_Procesos = SqlClass.sqldata.ObtenerPro(empresas);
+            DataTable m_Procesos = SqlClass.Sqldata.ObtenerPro(empresas);
             List<SelectListItem> l_Procesos = new List<SelectListItem>();
             string sop_proceso = "";
             foreach (DataRow Row in m_Procesos.Rows)
@@ -103,7 +103,7 @@ namespace Reporte.Controllers
                 Thread.Sleep(5000);
             }
             m_mensual = true;
-            DataTable m_result = SqlClass.sqldata.GenerarReporte(m_Results);
+            DataTable m_result = SqlClass.Sqldata.GenerarReporte(m_Results);
             WriteExcelWithNPOI(m_result, m_Results.SelectedAnos + "-" + m_Results.SelectedEmpresas, m_Results);
             m_mensual = false;
             return RedirectToAction("Index");
@@ -200,7 +200,7 @@ namespace Reporte.Controllers
             celda_style1.FillPattern = FillPattern.SolidForeground;
             celda_style1.SetFont(font1);
             celda_title1.CellStyle = celda_style1;
-            celda_title1.SetCellValue(SqlClass.sqldata.Empresa_Title(m_Results.SelectedEmpresas));
+            celda_title1.SetCellValue(SqlClass.Sqldata.Empresa_Title(m_Results.SelectedEmpresas));
 
             IRow row1 = sheet1.CreateRow(2);
             for (int j = 0; j < dt.Columns.Count; j++)
@@ -309,7 +309,7 @@ namespace Reporte.Controllers
             while(fin >= inicio)
             {
                 m_Results.SelectedMeses = inicio.ToString();
-                DataTable dt = SqlClass.sqldata.GenerarReporteImp(m_Results);
+                DataTable dt = SqlClass.Sqldata.GenerarReporteImp(m_Results);
                 ISheet sheet1 = workbook.CreateSheet(inicio.ToString());
                 if (!(m_Results.SelectedProcesos.Length > 4))
                 {
@@ -325,7 +325,7 @@ namespace Reporte.Controllers
                     celda_style.FillPattern = FillPattern.SolidForeground;
                     celda_style.SetFont(font);
                     celda_title.CellStyle = celda_style;
-                    celda_title.SetCellValue(SqlClass.sqldata.ProcesosTitle(m_Results,inicio));
+                    celda_title.SetCellValue(SqlClass.Sqldata.ProcesosTitle(m_Results,inicio));
                 }
 
                 
@@ -341,7 +341,7 @@ namespace Reporte.Controllers
                 celda_style1.FillPattern = FillPattern.SolidForeground;
                 celda_style1.SetFont(font1);
                 celda_title1.CellStyle = celda_style1;
-                celda_title1.SetCellValue(SqlClass.sqldata.Empresa_Title(m_Results.SelectedEmpresas));
+                celda_title1.SetCellValue(SqlClass.Sqldata.Empresa_Title(m_Results.SelectedEmpresas));
 
                 IRow row1 = sheet1.CreateRow(2);
                 for (int j = 0; j < dt.Columns.Count; j++)

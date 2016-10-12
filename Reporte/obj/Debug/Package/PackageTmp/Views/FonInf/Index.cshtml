@@ -1,0 +1,138 @@
+﻿@using Mvc.CascadeDropDown
+@model Reporte.Models.CascadingDropdownsModel
+
+@{
+    ViewBag.Title = "Reporteador";
+}
+<header class="header">
+    <div class="contenedor">
+        <img src="~/images/logo.png" height="150" class="logotipo" />
+        <img src="~/images/CAVAZOS.png" height="100" class="logotipob" />
+    </div>
+    <div class="contenedor titulo">
+        <h1>Reporte Infonavit-Fonacot</h1>
+    </div>
+</header>
+<section class="contenedor">
+    <div class="formulario">
+        @using (Html.BeginForm("GenerarReporte", "FonInf", FormMethod.Post))
+            {
+            <div class="boton">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Reporte</label>
+                            @Html.DropDownListFor(m => m.SelectedReporte, Model.Reportes, "Seleccione tipo de reporte", new { @class = "form-control combobox", onchange="functionReportes()"})
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="filtros" style="display:none">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Sistema</label>
+                            @Html.DropDownListFor(m => m.SelectedBase, Model.Base, "Seleccione sistema", new { @class = "form-control combobox", Required = true })
+                        </th>
+                        <th>
+                            <label>Empresa</label>
+                            @Html.CascadingDropDownListFor(expression: m => m.SelectedEmpresas,
+
+                                  triggeredByProperty: m => m.SelectedBase,
+                                  url: Url.Action("GetEmpresas", "FonInf"),
+                                  ajaxActionParamName: "reportes",
+                                  optionLabel: "Selecciona la empresa",
+                                  disabledWhenParrentNotSelected: true,
+
+                                  htmlAttributes: new { @class = "form-control combobox", Required = true })
+                        </th>
+                        <th>
+                            <label>Proceso</label>
+                            @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
+
+                                  triggeredByProperty: m => m.SelectedEmpresas,
+                                  url: Url.Action("GetProcesos", "FonInf"),
+                                  ajaxActionParamName: "empresas",
+                                  optionLabel: "Selecciona el proceso",
+                                  disabledWhenParrentNotSelected: true,
+
+                                  htmlAttributes: new { @class = "form-control combobox", Required = true, onchange="functionValores()"})
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="checks" style="display:none">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>
+                                @Html.RadioButton("typeCheck", "Mensual",
+                            new { id = "IsMensual", onClick = "functionMensual()" }) Mensual
+                            </label>
+                        </th>
+                        <th>
+                            <label>
+                                @Html.RadioButton("typeCheck", "Bimestral",
+                            new { id = "IsBimestral", onClick = "functionBimestral()" }) Bimestral
+                            </label>
+                        </th>
+                        <th id="tablaperi" style="display:none">
+                            <label>
+                                @Html.RadioButton("typeCheck", "Periodos",
+                            new { id = "IsPeriodos", onClick = "functionPeriodo()" }) Periodos
+                            </label>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="mensual" style="display:none">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Año</label>
+                            @Html.DropDownListFor(m => m.SelectedAnosMen, Model.Anos, "Seleccione el año", new { @class = "form-control combobox", id = "AnoMen", onchange = "functionMenVal()" })
+                        </th>
+                        <th>
+                            <label>Periodo(s)</label>
+                            @Html.DropDownListFor(m => m.SelectedMeses, Model.Meses, "Seleccione el mes", new { @class = "form-control combobox", id = "PerMen", onchange = "functionMenVal()" })
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="bimestral" style="display:none">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Año</label>
+                            @Html.DropDownListFor(m => m.SelectedAnos, Model.Anos, "Seleccione el año", new { @class = "form-control combobox", onchange = "functionBimVal()"})
+                        </th>
+                        <th>
+                            <label>Periodo(s)</label>
+                            @Html.DropDownListFor(m => m.SelectedBimestre, Model.Bimestre, "Seleccione el bimestre", new { @class = "form-control combobox", onchange = "functionBimVal()"})
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div id="periodo" style="display:none">
+                <table class="tablas">
+                    <tr>
+                        <th>
+                            <label>Período Inicio</label>
+                            <input type="text" class = "form-control caja" id="PerIni" name="PerIni"/>
+                        </th>
+                        <th>
+                            <label>Período Final</label>
+                            <input type="text" class = "form-control caja" id="PerFin" name="PerFin"/>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="boton" id="boton" style="display:none">
+                <input onclick="JavascriptFunction();" type="submit" class="boton" value="Generar" />
+            </div>
+            <div class="contenedor">
+                <p id="lbltipAddedComment" class="labelmen"></p>
+            </div>
+        }
+    </div>
+</section>

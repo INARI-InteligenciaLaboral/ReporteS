@@ -129,6 +129,10 @@ D:\CodePersonal\ReporteS\Reporte\bin\Microsoft.ApplicationInsights.dll
 D:\CodePersonal\ReporteS\Reporte\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\CodePersonal\ReporteS\Reporte\bin\Microsoft.Web.Infrastructure.dll
 D:\CodePersonal\ReporteS\Reporte\bin\Mvc.CascadeDropDown.dll
+D:\CodePersonal\ReporteS\Reporte\bin\NPOI.dll
+D:\CodePersonal\ReporteS\Reporte\bin\NPOI.OOXML.dll
+D:\CodePersonal\ReporteS\Reporte\bin\NPOI.OpenXml4Net.dll
+D:\CodePersonal\ReporteS\Reporte\bin\NPOI.OpenXmlFormats.dll
 D:\CodePersonal\ReporteS\Reporte\bin\System.Web.Helpers.dll
 D:\CodePersonal\ReporteS\Reporte\bin\System.Web.Mvc.dll
 D:\CodePersonal\ReporteS\Reporte\bin\System.Web.Razor.dll

@@ -12,55 +12,15 @@ namespace Reporte.SqlClass
         public static List<SelectListItem> ObtenerAnos()
         {
             List<SelectListItem> l_anos = new List<SelectListItem>();
-            l_anos.Add(
+            for(int x = DateTime.Now.Year; x >= 2010; x--)
+            {
+                l_anos.Add(
                 new SelectListItem()
                 {
-                    Text = "2010",
-                    Value = "2010"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2011",
-                    Value = "2011"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2012",
-                    Value = "2012"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2013",
-                    Value = "2013"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2014",
-                    Value = "2014"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2015",
-                    Value = "2015"
-                }
-            );
-            l_anos.Add(
-                new SelectListItem()
-                {
-                    Text = "2016",
-                    Value = "2016"
-                }
-            );
+                    Text = x.ToString(),
+                    Value = x.ToString()
+                });
+            }
             return l_anos;
         }
         public static List<SelectListItem> ObtenerMeses()
@@ -132,7 +92,7 @@ namespace Reporte.SqlClass
             l_meses.Add(
                 new SelectListItem()
                 {
-                    Text = "Setiembre",
+                    Text = "Septiembre",
                     Value = "9"
                 }
             );
@@ -228,7 +188,7 @@ namespace Reporte.SqlClass
             l_meses.Add(
                 new SelectListItem()
                 {
-                    Text = "Setiembre",
+                    Text = "Septiembre",
                     Value = "09"
                 }
             );
@@ -251,6 +211,53 @@ namespace Reporte.SqlClass
                 {
                     Text = "Diciembre",
                     Value = "12"
+                }
+            );
+            return l_meses;
+        }
+        public static List<SelectListItem> BimestresSop()
+        {
+            List<SelectListItem> l_meses = new List<SelectListItem>();
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Primero",
+                    Value = "1,2"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Segundo",
+                    Value = "3,4"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Tercero",
+                    Value = "5,6"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Cuarto",
+                    Value = "7,8"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Quinto",
+                    Value = "9,10"
+                }
+            );
+            l_meses.Add(
+                new SelectListItem()
+                {
+                    Text = "Sexto",
+                    Value = "11"
                 }
             );
             return l_meses;
