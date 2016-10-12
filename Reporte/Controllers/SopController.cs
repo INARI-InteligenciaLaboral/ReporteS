@@ -15,9 +15,9 @@ namespace Reporte.Controllers
 {
     public class SopController : Controller
     {
-        public bool m_importe = false;
-        public bool m_mensual = false;
-        List<SelectListItem> l_empresas = new List<SelectListItem>();
+        public bool MImporte = false;
+        public bool MMensual = false;
+        List<SelectListItem> lEmpresas = new List<SelectListItem>();
 
         // GET: Sop
         public ActionResult Index()
@@ -27,36 +27,36 @@ namespace Reporte.Controllers
         // GET: Home
         public ActionResult SopradeMensual()
         {
-            System.Data.DataTable m_Empresas = SqlClass.sqlsop.ObtenerEmp();
+            System.Data.DataTable mEmpresas = SqlClass.Sqlsop.ObtenerEmp();
 
-            foreach (DataRow Row in m_Empresas.Rows)
+            foreach (DataRow Row in mEmpresas.Rows)
             {
-                l_empresas.Add(new SelectListItem()
+                lEmpresas.Add(new SelectListItem()
                 {
                     Text = Row[1].ToString(),
                     Value = Row[0].ToString()
                 });
             }
-            List<SelectListItem> l_anos = new List<SelectListItem>();
-            l_anos = SqlClass.ListasStaticas.ObtenerAnos();
-            List<SelectListItem> l_meses = new List<SelectListItem>();
-            l_meses = SqlClass.ListasStaticas.ObtenerMesesSop();
+            var lAnos = new List<SelectListItem>();
+            lAnos = SqlClass.ListasStaticas.ObtenerAnos();
+            var lMeses = new List<SelectListItem>();
+            lMeses = SqlClass.ListasStaticas.ObtenerMesesSop();
             var model = new CascadingDropdownsModel
             {
-                Empresas = l_empresas,
-                Anos = l_anos,
-                Meses = l_meses
+                Empresas = lEmpresas,
+                Anos = lAnos,
+                Meses = lMeses
             };
             return View(model);
         }
         // GET: Home
         public ActionResult SopradeProcesos()
         {
-            System.Data.DataTable m_Empresas = SqlClass.sqlsop.ObtenerEmp();
-            List<SelectListItem> l_empresas = new List<SelectListItem>();
-            foreach (DataRow Row in m_Empresas.Rows)
+            System.Data.DataTable mEmpresas = SqlClass.Sqlsop.ObtenerEmp();
+            var lEmpresas = new List<SelectListItem>();
+            foreach (DataRow Row in mEmpresas.Rows)
             {
-                l_empresas.Add(new SelectListItem()
+                lEmpresas.Add(new SelectListItem()
                 {
                     Text = Row[1].ToString(),
                     Value = Row[0].ToString()
@@ -64,62 +64,62 @@ namespace Reporte.Controllers
             }
             var model = new CascadingDropdownsModel
             {
-                Empresas = l_empresas
+                Empresas = lEmpresas
             };
             return View(model);
         }
         public ActionResult GetProcesos(string empresas)
         {
-            System.Data.DataTable m_Procesos = SqlClass.sqlsop.ObtenerPro(empresas);
-            List<SelectListItem> l_Procesos = new List<SelectListItem>();
-            string sop_proceso = "";
-            foreach (DataRow Row in m_Procesos.Rows)
+            System.Data.DataTable mProcesos = SqlClass.Sqlsop.ObtenerPro(empresas);
+            var lProcesos = new List<SelectListItem>();
+            string sopProceso = "";
+            foreach (DataRow Row in mProcesos.Rows)
             {
-                if (!sop_proceso.Equals(""))
+                if (!sopProceso.Equals(value: ""))
                 {
-                    sop_proceso = sop_proceso + ",";
+                    sopProceso = sopProceso + ",";
                 }
-                sop_proceso = sop_proceso + Row[0].ToString();
-                l_Procesos.Add(new SelectListItem()
+                sopProceso = sopProceso + Row[0].ToString();
+                lProcesos.Add(new SelectListItem()
                 {
                     Text = Row[1].ToString(),
                     Value = Row[0].ToString(),
                 });
             }
-            l_Procesos.Add(new SelectListItem()
+            lProcesos.Add(new SelectListItem()
             {
                 Text = "Todos los procesos",
-                Value = sop_proceso
+                Value = sopProceso
             });
-            MultiSelectList m_List = new MultiSelectList(l_Procesos, "Value", "Text");
-            var procesos = l_Procesos;
-            return Json(m_List, JsonRequestBehavior.AllowGet);
+            var mList = new MultiSelectList(lProcesos, dataValueField: "Value", dataTextField: "Text");
+            List<SelectListItem> procesos = lProcesos;
+            return Json(mList, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GenerarDocument([Bind(Include = "SelectedEmpresas,SelectedAnos,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel m_Results)
+        public ActionResult GenerarDocument([Bind(Include = "SelectedEmpresas,SelectedAnos,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel mResults)
         {
-            while (m_mensual)
+            while (MMensual)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(millisecondsTimeout: 5000);
             }
-            m_mensual = true;
-            System.Data.DataTable m_result = SqlClass.sqlsop.GenerarReporte(m_Results);
-            WriteExcelWithNPOI(m_result, m_Results.SelectedAnos + "-" + m_Results.SelectedEmpresas, m_Results);
-            m_mensual = false;
-            return RedirectToAction("Index");
+            MMensual = true;
+            System.Data.DataTable mResult = SqlClass.Sqlsop.GenerarReporte(mResults);
+            WriteExcelWithNpoi(mResult, mResults.SelectedAnos + "-" + mResults.SelectedEmpresas, mResults);
+            MMensual = false;
+            return RedirectToAction(actionName: "Index");
         }
-        public ActionResult GenerarDocumentPro([Bind(Include = "SelectedEmpresas,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel m_Results)
+        public ActionResult GenerarDocumentPro([Bind(Include = "SelectedEmpresas,SelectedProcesos,SelectedMeses")] CascadingDropdownsModel mResults)
         {
-            while (m_importe)
+            while (MImporte)
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(millisecondsTimeout: 5000);
             }
-            m_importe = true;
-            WriteExcelWith(m_Results.SelectedMeses + "-" + m_Results.SelectedEmpresas, m_Results);
-            m_importe = false;
-            return RedirectToAction("SopradeProcesos", "Sop");
+            MImporte = true;
+            WriteExcelWith(mResults.SelectedMeses + "-" + mResults.SelectedEmpresas, mResults);
+            MImporte = false;
+            return RedirectToAction(actionName: "SopradeProcesos", controllerName: "Sop");
         }
-        public void WriteExcelWithNPOI(System.Data.DataTable dt, String m_nombre, CascadingDropdownsModel m_Results)
+        public void WriteExcelWithNpoi(System.Data.DataTable dt, String mNombre, CascadingDropdownsModel mResults)
         {
 
             IWorkbook workbook;
@@ -127,82 +127,82 @@ namespace Reporte.Controllers
 
             workbook = new XSSFWorkbook();
 
-            ISheet sheet1 = workbook.CreateSheet("Sheet 1");
+            ISheet sheet1 = workbook.CreateSheet(sheetname: "Sheet 1");
 
 
-            IRow rows = sheet1.CreateRow(0);
-            ICell celda_title = rows.CreateCell(0);
-            sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 44));
-            var font = workbook.CreateFont();
+            IRow rows = sheet1.CreateRow(rownum: 0);
+            ICell celdaTitle = rows.CreateCell(column: 0);
+            sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(firstRow: 0, lastRow: 0, firstCol: 0, lastCol: 44));
+            NPOI.SS.UserModel.IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 14;
             font.FontName = "Calibri";
             font.Boldweight = (short)FontBoldWeight.Bold;
-            ICellStyle celda_style = workbook.CreateCellStyle();
-            celda_style.FillForegroundColor = IndexedColors.White.Index;
-            celda_style.FillPattern = FillPattern.SolidForeground;
-            celda_style.SetFont(font);
-            celda_title.CellStyle = celda_style;
-            if (m_Results.SelectedMeses.Length > 2)
+            ICellStyle celdaStyle = workbook.CreateCellStyle();
+            celdaStyle.FillForegroundColor = IndexedColors.White.Index;
+            celdaStyle.FillPattern = FillPattern.SolidForeground;
+            celdaStyle.SetFont(font);
+            celdaTitle.CellStyle = celdaStyle;
+            if (mResults.SelectedMeses.Length > 2)
             {
-                celda_title.SetCellValue("Reporte anual del año " + m_Results.SelectedAnos);
+                celdaTitle.SetCellValue("Reporte anual del año " + mResults.SelectedAnos);
             }
             else
             {
-                switch (Convert.ToInt16(m_Results.SelectedMeses))
+                switch (Convert.ToInt16(mResults.SelectedMeses))
                 {
                     case 1:
-                        celda_title.SetCellValue("Reporte del mes de Enero del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Enero del año " + mResults.SelectedAnos);
                         break;
                     case 2:
-                        celda_title.SetCellValue("Reporte del mes de Febrero del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Febrero del año " + mResults.SelectedAnos);
                         break;
                     case 3:
-                        celda_title.SetCellValue("Reporte del mes de Marzo del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Marzo del año " + mResults.SelectedAnos);
                         break;
                     case 4:
-                        celda_title.SetCellValue("Reporte del mes de Abril del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Abril del año " + mResults.SelectedAnos);
                         break;
                     case 5:
-                        celda_title.SetCellValue("Reporte del mes de Mayo del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Mayo del año " + mResults.SelectedAnos);
                         break;
                     case 6:
-                        celda_title.SetCellValue("Reporte del mes de Junio del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Junio del año " + mResults.SelectedAnos);
                         break;
                     case 7:
-                        celda_title.SetCellValue("Reporte del mes de Julio del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Julio del año " + mResults.SelectedAnos);
                         break;
                     case 8:
-                        celda_title.SetCellValue("Reporte del mes de Agosto del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Agosto del año " + mResults.SelectedAnos);
                         break;
                     case 9:
-                        celda_title.SetCellValue("Reporte del mes de Septiembre del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Septiembre del año " + mResults.SelectedAnos);
                         break;
                     case 10:
-                        celda_title.SetCellValue("Reporte del mes de Octubre del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Octubre del año " + mResults.SelectedAnos);
                         break;
                     case 11:
-                        celda_title.SetCellValue("Reporte del mes de Noviembre del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Noviembre del año " + mResults.SelectedAnos);
                         break;
                     case 12:
-                        celda_title.SetCellValue("Reporte del mes de Noviembre del año " + m_Results.SelectedAnos);
+                        celdaTitle.SetCellValue("Reporte del mes de Noviembre del año " + mResults.SelectedAnos);
                         break;
-                };
+                }
             }
-            IRow rows1 = sheet1.CreateRow(1);
-            ICell celda_title1 = rows1.CreateCell(0);
-            sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 1, 0, 44));
-            var font1 = workbook.CreateFont();
+            IRow rows1 = sheet1.CreateRow(rownum: 1);
+            ICell celdaTitle1 = rows1.CreateCell(column: 0);
+            sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(firstRow: 1, lastRow: 1, firstCol: 0, lastCol: 44));
+            NPOI.SS.UserModel.IFont font1 = workbook.CreateFont();
             font1.FontHeightInPoints = 14;
             font1.FontName = "Calibri";
             font1.Boldweight = (short)FontBoldWeight.Bold;
-            ICellStyle celda_style1 = workbook.CreateCellStyle();
-            celda_style1.FillForegroundColor = IndexedColors.White.Index;
-            celda_style1.FillPattern = FillPattern.SolidForeground;
-            celda_style1.SetFont(font1);
-            celda_title1.CellStyle = celda_style1;
-            celda_title1.SetCellValue(SqlClass.sqlsop.Empresa_Title(m_Results.SelectedEmpresas));
+            ICellStyle celdaStyle1 = workbook.CreateCellStyle();
+            celdaStyle1.FillForegroundColor = IndexedColors.White.Index;
+            celdaStyle1.FillPattern = FillPattern.SolidForeground;
+            celdaStyle1.SetFont(font1);
+            celdaTitle1.CellStyle = celdaStyle1;
+            celdaTitle1.SetCellValue(SqlClass.Sqlsop.Empresa_Title(mResults.SelectedEmpresas));
 
-            IRow row1 = sheet1.CreateRow(2);
+            IRow row1 = sheet1.CreateRow(rownum: 2);
             for (int j = 0; j < dt.Columns.Count; j++)
             {
                 ICell cell = row1.CreateCell(j);
@@ -280,21 +280,21 @@ namespace Reporte.Controllers
                 Response.Clear();
                 workbook.Write(exportData);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "Soprade " + m_nombre + "Reporte.xlsx"));
+                Response.AddHeader(name: "Content-Disposition", value: string.Format(format: "attachment;filename={0}", arg0: "Soprade " + mNombre + "Reporte.xlsx"));
                 Response.BinaryWrite(exportData.ToArray());
                 Response.End();
             }
         }
-        public void WriteExcelWith(String m_nombre, CascadingDropdownsModel m_Results)
+        public void WriteExcelWith(String mNombre, CascadingDropdownsModel mResults)
         {
             IWorkbook workbook;
 
             workbook = new XSSFWorkbook();
             int inicio = 0;
             int fin = 0;
-            bool m_Aguinaldo = false;
+            bool mAguinaldo = false;
             Char delimiter = '-';
-            String[] substrings = m_Results.SelectedMeses.Split(delimiter);
+            String[] substrings = mResults.SelectedMeses.Split(delimiter);
             foreach (var substring in substrings)
             {
                 if (inicio > 0)
@@ -305,45 +305,45 @@ namespace Reporte.Controllers
             if (fin == 0)
                 fin = inicio;
             if ((inicio <= 2015224 && fin >= 2015224) || (inicio <= 2015252 && fin >= 2015252))
-                m_Aguinaldo = true;
+                mAguinaldo = true;
             while (fin >= inicio)
             {
-                m_Results.SelectedMeses = inicio.ToString();
-                System.Data.DataTable dt = SqlClass.sqlsop.GenerarReporteImp(m_Results);
+                mResults.SelectedMeses = inicio.ToString();
+                System.Data.DataTable dt = SqlClass.Sqlsop.GenerarReporteImp(mResults);
                 ISheet sheet1 = workbook.CreateSheet(inicio.ToString());
-                if (!(m_Results.SelectedProcesos.Length > 4))
+                if (!(mResults.SelectedProcesos.Length > 4))
                 {
-                    IRow rows = sheet1.CreateRow(0);
-                    ICell celda_title = rows.CreateCell(0);
-                    sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, 0, 44));
-                    var font = workbook.CreateFont();
+                    IRow rows = sheet1.CreateRow(rownum: 0);
+                    ICell celdaTitle = rows.CreateCell(column: 0);
+                    sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(firstRow: 0, lastRow: 0, firstCol: 0, lastCol: 44));
+                    NPOI.SS.UserModel.IFont font = workbook.CreateFont();
                     font.FontHeightInPoints = 14;
                     font.FontName = "Calibri";
                     font.Boldweight = (short)FontBoldWeight.Bold;
-                    ICellStyle celda_style = workbook.CreateCellStyle();
-                    celda_style.FillForegroundColor = IndexedColors.White.Index;
-                    celda_style.FillPattern = FillPattern.SolidForeground;
-                    celda_style.SetFont(font);
-                    celda_title.CellStyle = celda_style;
-                    celda_title.SetCellValue(SqlClass.sqlsop.ProcesosTitle(m_Results, inicio));
+                    ICellStyle celdaStyle = workbook.CreateCellStyle();
+                    celdaStyle.FillForegroundColor = IndexedColors.White.Index;
+                    celdaStyle.FillPattern = FillPattern.SolidForeground;
+                    celdaStyle.SetFont(font);
+                    celdaTitle.CellStyle = celdaStyle;
+                    celdaTitle.SetCellValue(SqlClass.Sqlsop.ProcesosTitle(mResults, inicio));
                 }
 
 
-                IRow rows1 = sheet1.CreateRow(1);
-                ICell celda_title1 = rows1.CreateCell(0);
-                sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(1, 1, 0, 44));
-                var font1 = workbook.CreateFont();
+                IRow rows1 = sheet1.CreateRow(rownum: 1);
+                ICell celdaTitle1 = rows1.CreateCell(column: 0);
+                sheet1.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(firstRow: 1, lastRow: 1, firstCol: 0, lastCol: 44));
+                NPOI.SS.UserModel.IFont font1 = workbook.CreateFont();
                 font1.FontHeightInPoints = 14;
                 font1.FontName = "Calibri";
                 font1.Boldweight = (short)FontBoldWeight.Bold;
-                ICellStyle celda_style1 = workbook.CreateCellStyle();
-                celda_style1.FillForegroundColor = IndexedColors.White.Index;
-                celda_style1.FillPattern = FillPattern.SolidForeground;
-                celda_style1.SetFont(font1);
-                celda_title1.CellStyle = celda_style1;
-                celda_title1.SetCellValue(SqlClass.sqlsop.Empresa_Title(m_Results.SelectedEmpresas));
+                ICellStyle celdaStyle1 = workbook.CreateCellStyle();
+                celdaStyle1.FillForegroundColor = IndexedColors.White.Index;
+                celdaStyle1.FillPattern = FillPattern.SolidForeground;
+                celdaStyle1.SetFont(font1);
+                celdaTitle1.CellStyle = celdaStyle1;
+                celdaTitle1.SetCellValue(SqlClass.Sqlsop.Empresa_Title(mResults.SelectedEmpresas));
 
-                IRow row1 = sheet1.CreateRow(2);
+                IRow row1 = sheet1.CreateRow(rownum: 2);
                 for (int j = 0; j < dt.Columns.Count; j++)
                 {
                     ICell cell = row1.CreateCell(j);
@@ -416,11 +416,11 @@ namespace Reporte.Controllers
                     }
                 if (fin == inicio)
                 {
-                    if (m_Aguinaldo)
+                    if (mAguinaldo)
                     {
                         fin = 2015702;
                         inicio = 2015702;
-                        m_Aguinaldo = false;
+                        mAguinaldo = false;
                     }
                     else
                         inicio++;
@@ -435,7 +435,7 @@ namespace Reporte.Controllers
                 Response.Clear();
                 workbook.Write(exportData);
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}", "Soprade " + m_nombre + "Reporte.xlsx"));
+                Response.AddHeader(name: "Content-Disposition", value: string.Format(format: "attachment;filename={0}", arg0: "Soprade " + mNombre + "Reporte.xlsx"));
                 Response.BinaryWrite(exportData.ToArray());
                 Response.End();
             }

@@ -8,17 +8,17 @@
     <div class="contenedor">
         <img src="~/images/logo.png" height="150" class="logotipo" />
         @Html.ActionLink("Inicio", "Index", "Home")
-        @Html.ActionLink("Mensual", "FilterMensual")
-        @Html.ActionLink("Periodos", "FilterProcesos")
+        @Html.ActionLink("Mensual", "SopradeMensual")
+        @Html.ActionLink("Periodos", "SopradeProcesos")
         <img src="~/images/CAVAZOS.png" height="100" class="logotipob" />
     </div>
     <div class="contenedor titulo">
-        <h1>Reporte SIAP</h1>
+        <h1>Reporte Soprade</h1>
     </div>
 </header>
 <section class="contenedor">
     <div class="formulario">
-        @using (Html.BeginForm("GenerarDocument", "Home", FormMethod.Post))
+        @using (Html.BeginForm("GenerarDocument", "Sop", FormMethod.Post))
             {
             <div>
                 <table class="tablas">
@@ -37,7 +37,7 @@
                             <label>Proceso</label>
                             @Html.CascadingDropDownListFor(expression: m => m.SelectedProcesos,
                                   triggeredByProperty: m => m.SelectedEmpresas,
-                                  url: Url.Action("GetProcesos", "Home"),
+                                  url: Url.Action("GetProcesos", "Sop"),
                                   ajaxActionParamName: "empresas",
                                   optionLabel: "Selecciona el proceso",
                                   disabledWhenParrentNotSelected: true,
